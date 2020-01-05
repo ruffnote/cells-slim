@@ -10,7 +10,7 @@ module Cell
       @output_buffer = old_output_buffer
     end
 
-    def template_options_for(_options)
+    def template_options_for(options)
       {
         template_class: ::Slim::Template,
         suffix:         "slim",
@@ -20,9 +20,10 @@ module Cell
         buffer:         "@output_buffer"
       }
     end
-  end
 
-  class ViewModelSlim < ViewModel
-    include Cell::Slim
+    if Object.const_defined?(:ActionView)
+      require "cell/slim/rails"
+      include Cell::Slim::Rails
+    end
   end
 end
